@@ -19,3 +19,8 @@ jenkins is basic
 jenkins1 is with docker build
 
 jenkins2 is with docker build, push to docker hub
+
+docker stop <container>
+docker rm   <container>
+docker rmi -f $(docker images -q)
+
