@@ -20,7 +20,11 @@ jenkins1 is with docker build
 
 jenkins2 is with docker build, push to docker hub
 
+# for clearing docker built container and images
+
 docker stop <container>
+
 docker rm   <container>
+
 docker rmi -f $(docker images -q)
 
