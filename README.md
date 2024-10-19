@@ -30,6 +30,7 @@ jenkinsfile5 =	Set up multibranch pipelines for different environments (e.g., st
 
 jenkinsfile55 in develop branch =  Create a pipeline that uses a Multi-Select parameter (for example, using Extended Choice Plugin) to select multiple components to deploy (e.g., frontend, backend, database). Echo which components are selected and deploy them.// Key Concepts: Multi-Select Parameter, conditional deployment, multiple components.// Expected Answer (assuming Extended Choice Parameter Plugin):
 
+Jenkinsfile100 = You need to configure a Jenkins pipeline with conditional execution in nested stages, such that it only runs if previous stages are successful.
 
 
 for cleaning work space use :  cleanWs()   // <--- This cleans up the workspace
