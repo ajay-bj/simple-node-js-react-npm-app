@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'ajaybalaji969/my-node-task1'
-        DOCKER_REGISTRY = 'your-docker-username/my-node-react-app'  // Docker Hub repository (username/repo)
-        IMAGE_TAG = "${IMAGE_NAME}:${env.BUILD_NUMBER}"
+        DOCKER_REGISTRY = 'ajaybalaji969/my-node-task1'  // Adjust this to match your repo
+        IMAGE_TAG = "${DOCKER_REGISTRY}:${env.BUILD_NUMBER}"  // Full image name with build number
     }
+
     stages {
         stage('Clean Workspace') {
             steps {
@@ -20,6 +20,7 @@ pipeline {
                 sh 'npm install' 
             }
         }
+
         stage('Test') {
             steps {
                 echo "Test Stage"
@@ -27,29 +28,49 @@ pipeline {
                 sh './jenkins/scripts/test.sh'
             }
         }
-        stage('Login to docker hub') {
+
+        stage('Login to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-cred', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-                sh 'docker login -u ${USERNAME} -p ${PASSWORD}'}
+                    sh 'echo ${PASSWORD} | docker login -u ${USERNAME} --password-stdin'
+                }
                 echo 'Login successfully'
             }
         }
-        stage('Build Docker Image')
-        {
-            steps
-            {
+
+        stage('Build Docker Image') {
+            steps {
                 sh 'docker build -t ${IMAGE_TAG} .'
-                echo "Docker image build successfully"
+                echo "Docker image built successfully"
                 sh "docker images"
             }
         }
-        stage('Push Docker Image')
-        {
-            steps
-            {
+
+        stage('Push Docker Image') {
+            steps {
                 sh 'docker push ${IMAGE_TAG}'
-                echo "Docker image push successfully"
+                echo "Docker image pushed successfully"
             }
         }
     }
+
+    post {
+        always {
+            emailext (
+                subject: "Pipeline Status: Build #${BUILD_NUMBER}",
+                body: '''<html>
+                            <body>
+                                <p>Build Status: ${BUILD_STATUS}</p>
+                                <p>Build Number: ${BUILD_NUMBER}</p>
+                                <p>Check the <a href="${BUILD_URL}">console output</a>.</p>
+                            </body>
+                        </html>''',
+                to: 'ajaybj969@gmail.com',
+                from: 'ajaybj969@gmail.com',
+                replyTo: 'ajaybj969@gmail.com',
+                mimeType: 'text/html'
+            )
+        }
+    }
 }
+
