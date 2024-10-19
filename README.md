@@ -12,3 +12,10 @@ The `jenkins` directory contains an example of the `Jenkinsfile` (i.e. Pipeline)
 you'll be creating yourself during the tutorial and the `scripts` subdirectory
 contains shell scripts with commands that are executed when Jenkins processes
 the "Test" and "Deliver" stages of your Pipeline.
+
+# jenkins file details
+jenkins is basic
+
+jenkins1 is with docker build
+
+jenkins2 is with docker build, push to docker hub
