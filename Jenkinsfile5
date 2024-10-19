@@ -28,7 +28,7 @@ pipeline {
                         sh './jenkins/scripts/deploy-staging.sh'
                     }
                     // Deploy to production if on main branch
-                    else if (env.BRANCH_NAME == 'main') {
+                    else if (env.BRANCH_NAME == 'master') {
                         input message: 'Deploy to Production? (Click "Proceed" to continue)'
                         echo "Deploying to Production Environment..."
                         sh './jenkins/scripts/deploy-production.sh'
