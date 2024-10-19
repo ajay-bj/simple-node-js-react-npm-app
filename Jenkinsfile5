@@ -25,13 +25,19 @@ pipeline {
                     // Deploy to staging if on develop branch
                     if (env.BRANCH_NAME == 'develop') {
                         echo "Deploying to Staging Environment..."
-                        sh './jenkins/scripts/deploy-staging.sh'
+                        sh './jenkins/scripts/deliver.sh'
+                        input message: 'Finished using the web site in STAGING ? (Click "Proceed" to continue)'
+                        sh './jenkins/scripts/kill.sh'
+                        echo "branch: ${env.BRANCH_NAME} running in staging "
                     }
-                    // Deploy to production if on main branch
+                    // Deploy to production if on master branch
                     else if (env.BRANCH_NAME == 'master') {
-                        input message: 'Deploy to Production? (Click "Proceed" to continue)'
                         echo "Deploying to Production Environment..."
-                        sh './jenkins/scripts/deploy-production.sh'
+                        sh './jenkins/scripts/deliver.sh'
+                        input message: 'Deploy to Production? (Click "Proceed" to continue)'
+                        sh './jenkins/scripts/kill.sh'
+                        echo "branch: ${env.BRANCH_NAME} running in PRODUCTION "
+                        
                     } else {
                         echo "No deployment for branch: ${env.BRANCH_NAME}"
                     }
