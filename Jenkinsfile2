@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+    tools {
+        dockerTool 'docker'
+    }
+    environment {
+        IMAGE_NAME = 'ajaybalaji969/my-node-react-app'
+        DOCKER_REGISTRY = 'your-docker-username/my-node-react-app'  // Docker Hub repository (username/repo)
+        IMAGE_TAG = "${IMAGE_NAME}:${env.BUILD_NUMBER}"
+    }
+    stages {
+        stage('Test') {
+            steps {
+                echo "Test Stage"
+                sh "whoami"
+            }
+        }
+        stage('Login to docker hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker-cred', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                sh 'sudo docker login -u ${USERNAME} -p ${PASSWORD}'}
+                echo 'Login successfully'
+            }
+        }
+        stage('Build Docker Image')
+        {
+            steps
+            {
+                sh 'sudo docker build -t ${IMAGE_TAG} .'
+                echo "Docker image build successfully"
+                sh "sudo docker images"
+            }
+        }
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    // Run the Docker container
+                    sh "docker run -d -p 3000:3000 --name ${IMAGE_NAME} ${IMAGE_NAME}"
+                }
+            }
+        }
+        
+        stage('Push Docker Image')
+        {
+            steps
+            {
+                sh 'sudo docker push ${IMAGE_TAG}'
+                echo "Docker image push successfully"
+            }
+        }
+    }
+}
