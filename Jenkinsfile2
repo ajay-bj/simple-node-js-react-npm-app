@@ -1,8 +1,6 @@
 pipeline {
     agent any
-    tools {
-        dockerTool 'docker'
-    }
+
     environment {
         IMAGE_NAME = 'ajaybalaji969/my-node-react-app'
         DOCKER_REGISTRY = 'your-docker-username/my-node-react-app'  // Docker Hub repository (username/repo)
