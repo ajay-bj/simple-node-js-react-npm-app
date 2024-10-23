@@ -46,5 +46,19 @@ pipeline {
                 echo "Docker image push successfully"
             }
         }
+
+         stage('Deploy to EKS Cluster') {
+            steps {
+                withCredentials([aws(credentialsId: 'aws-cred', region: AWS_REGION)]) {
+                // sh "sed -i 's#TAG/${IMAGE_TAG}#g' deployment.yaml"
+                sh " aws s3 ls "
+                sh 'aws eks update-kubeconfig --name three-tier-cluster --region us-east-1'
+                sh 'aws eks update-kubeconfig --name three-tier-cluster --region us-east-1'
+                sh 'kubectl get nodes'
+                sh " ls "
+                }
+                echo "Deployed to EKS Cluster"
+            }
+        }
     }
 }
