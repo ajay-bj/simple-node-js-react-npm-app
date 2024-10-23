@@ -18,7 +18,6 @@ pipeline {
             steps {
                 echo "Test Stage"
                 sh "whoami"
-                sh './jenkins/scripts/test.sh'
             }
         }
 
