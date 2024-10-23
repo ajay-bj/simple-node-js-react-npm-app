@@ -35,7 +35,7 @@ spec:
     spec:
       containers:
         - name: simple-node-app
-          image: jonathan02/simple-node-js-react-npm-app:1 # Replace with your actual Docker image name
+          image: ajaybalaji969/my-node-k8:TAG # Replace with your actual Docker image name
           ports:
             - containerPort: 3000
           resources:
