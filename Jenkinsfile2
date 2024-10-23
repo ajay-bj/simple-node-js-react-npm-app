@@ -31,6 +31,8 @@ pipeline {
                 sh 'aws eks update-kubeconfig --name three-tier-cluster --region us-east-1'
                 sh 'kubectl get nodes'
                 sh " ls "
+                sh " kubectl apply -f deployment.yaml "
+                sh " kubectl get deployment -n dev "
                 }
                 echo "Deployed to EKS Cluster"
             }
