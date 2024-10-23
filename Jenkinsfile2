@@ -21,33 +21,7 @@ pipeline {
                 echo 'Login successfully'
             }
         }
-        stage('Build Docker Image')
-        {
-            steps
-            {
-                sh 'docker build -t ${IMAGE_TAG} .'
-                echo "Docker image build successfully"
-                sh "docker images"
-            }
-        }
-        stage('Run Docker Container') {
-            steps {
-                script {
-                    // Run the Docker container
-                    // sh "docker run -d -p 3000:3000 --name sampletest ${IMAGE_TAG} "
-                }
-            }
-        }
-        
-        stage('Push Docker Image')
-        {
-            steps
-            {
-                // sh 'docker push ${IMAGE_TAG}'
-                echo "Docker image push successfully"
-            }
-        }
-
+    
          stage('Deploy to EKS Cluster') {
             steps {
                 withCredentials([aws(credentialsId: 'aws-cred', region: AWS_REGION)]) {
