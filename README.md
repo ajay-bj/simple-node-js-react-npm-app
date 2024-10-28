@@ -32,6 +32,8 @@ jenkinsfile55 in develop branch =  Create a pipeline that uses a Multi-Select pa
 
 Jenkinsfile100 = You need to configure a Jenkins pipeline with conditional execution in nested stages, such that it only runs if previous stages are successful.
 
+Jenkinsfilek8 = k8 deployment , using aws aws cli credentials 
+
 
 for cleaning work space use :  cleanWs()   // <--- This cleans up the workspace
 
