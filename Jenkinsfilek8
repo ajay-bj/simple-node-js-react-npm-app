@@ -60,7 +60,7 @@ pipeline {
                     cleanWs()
                     sh """
                         git clone https://${GITHUB_TOKEN}@github.com/ajay-bj/manifest-for-argocd.git
-                        cd flask-manifest
+                        cd manifest-for-argocd
                         sed -i 's#TAG#${BUILD_NUMBER}#g' deployment.yaml
                         git config user.email "ajaybj969@gmail.com" ## replace with your github useremail
                         git config user.name "ajay-bj"            ## replace with your github usernamename
