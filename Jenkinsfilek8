@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_REGISTRY = 'ajaybalaji969/my-node-k8'  // Adjust this to match your repo
+        DOCKER_REGISTRY = 'ajaybalaji969/featureb-branch-k8'  // Adjust this to match your repo
         IMAGE_TAG = "${DOCKER_REGISTRY}:${env.BUILD_NUMBER}"  // Full image name with build number
         AWS_REGION = 'us-east-1'
     }
