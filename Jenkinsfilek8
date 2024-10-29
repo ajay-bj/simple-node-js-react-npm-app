@@ -54,19 +54,24 @@ pipeline {
             }
         }
 
-        stage('Deploy to EKS Cluster') {
+        stage('manifest updating using sed') {
             steps {
-                withCredentials([aws(credentialsId: 'aws-cred', region: AWS_REGION)]) {
-                // sh "sed -i 's#TAG/${IMAGE_TAG}#g' deployment.yaml"
-                sh " aws s3 ls "
-                sh "sed -i 's#TAG#${BUILD_NUMBER}#g' deployment.yaml"
-                sh 'aws eks update-kubeconfig --name three-tier-cluster --region us-east-1'
-                sh 'kubectl get nodes'
-                sh " ls "
-                sh " kubectl apply -f deployment.yaml "
-                sh " kubectl get deployment -n dev "
+                withCredentials([string(credentialsId: 'git-cred', variable: 'GITHUB_TOKEN')]) {
+                    cleanWs()
+                    sh """
+                        git clone https://${GITHUB_TOKEN}@github.com/ajay-bj/manifest-for-argocd.git
+                        cd flask-manifest
+                        sed -i 's#TAG#${BUILD_NUMBER}#g' deployment.yaml
+                        git config user.email "ajaybj969@gmail.com" ## replace with your github useremail
+                        git config user.name "ajay-bj"            ## replace with your github usernamename
+                        git add deployment.yaml
+                        git commit -m "Update deployment image to version ${BUILD_NUMBER}"
+                        git push https://${GITHUB_TOKEN}@github.com/ajay-bj/manifest-for-argocd.git
+                    """
+                    cleanWs()
+              
                 }
-                echo "Deployed to EKS Cluster"
+                echo "manifest updated"
             }
         }
     }
