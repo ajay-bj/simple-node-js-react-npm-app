@@ -1,6 +1,7 @@
 # you can write your content here
 - to remove all created docker images
-  ---bash
+- 
+   ```bash
   docker rmi $(docker images -q)
 
 
