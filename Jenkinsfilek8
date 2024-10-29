@@ -56,7 +56,7 @@ pipeline {
 
         stage('manifest updating using sed') {
             steps {
-                withCredentials([string(credentialsId: 'git-cred', variable: 'GITHUB_TOKEN')]) {
+                withCredentials([string(credentialsId: 'github2-cred', variable: 'GITHUB_TOKEN')]) {
                     cleanWs()
                     sh """
                         git clone https://${GITHUB_TOKEN}@github.com/ajay-bj/manifest-for-argocd.git
