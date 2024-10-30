@@ -5,6 +5,7 @@ pipeline {
         DOCKER_REGISTRY = 'ajaybalaji969/featureb-branch-k8'  // Adjust this to match your repo
         IMAGE_TAG = "${DOCKER_REGISTRY}:${env.BUILD_NUMBER}"  // Full image name with build number
         AWS_REGION = 'us-east-1'
+        SCANNER_HOME = tool 'sonar-scanner'
     }
 
     stages {
@@ -21,6 +22,16 @@ pipeline {
                 sh "whoami"
             }
         }
+        stage("Sonarqube Analysis") {
+            steps {
+                withSonarQubeEnv('sonar-scanner') {
+                    sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=npmcode \
+                    -Dsonar.java.binaries=. \
+                    -Dsonar.projectKey=npmcode'''
+                }
+            }
+        }
+        
 
         stage('Login to Docker Hub') {
             steps {
