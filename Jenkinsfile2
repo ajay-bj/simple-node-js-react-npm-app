@@ -18,7 +18,9 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'docker-cred', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                 sh 'docker login -u ${USERNAME} -p ${PASSWORD}'}
+                sh "docker ps"
                 echo 'Login successfully'
+                sh "docker images"
             }
         }
     
@@ -27,12 +29,14 @@ pipeline {
                 withCredentials([aws(credentialsId: 'aws-cred', region: AWS_REGION)]) {
                 // sh "sed -i 's#TAG/${IMAGE_TAG}#g' deployment.yaml"
                 sh " aws s3 ls "
+                sh " aws --version "
+                sh " kubectl version --short --client "
                 sh 'aws eks update-kubeconfig --name three-tier-cluster --region us-east-1'
                 sh 'aws eks update-kubeconfig --name three-tier-cluster --region us-east-1'
                 sh 'kubectl get nodes'
                 sh " ls "
-                sh " kubectl apply -f deployment.yaml "
-                sh " kubectl get deployment -n dev "
+                // sh " kubectl apply -f deployment.yaml "
+                // sh " kubectl get deployment -n dev "
                 }
                 echo "Deployed to EKS Cluster"
             }
