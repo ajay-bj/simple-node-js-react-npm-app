@@ -31,8 +31,7 @@ pipeline {
                 sh " aws s3 ls "
                 sh " aws --version "
                 sh " kubectl version --short --client "
-                sh 'aws eks update-kubeconfig --name three-tier-cluster --region us-east-1'
-                sh 'aws eks update-kubeconfig --name three-tier-cluster --region us-east-1'
+                sh 'aws eks update-kubeconfig --name DevSecOps-Cluster --region us-east-1'
                 sh 'kubectl get nodes'
                 sh " ls "
                 // sh " kubectl apply -f deployment.yaml "
