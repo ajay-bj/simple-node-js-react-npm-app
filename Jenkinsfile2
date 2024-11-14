@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent {label "labelajay"}
 
     environment {
         IMAGE_NAME = 'ajaybalaji969/my-node-react-app'
